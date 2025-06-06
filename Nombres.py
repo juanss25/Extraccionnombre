@@ -28,40 +28,6 @@ def main():
         Puedes seleccionar una carpeta local o subir un archivo ZIP con la carpeta.
     """)
 
-    # Opción 1: Ingresar ruta de carpeta local (solo si se ejecuta el .exe)
-    if not st.runtime.is_hello_app(): # Solo mostrar esta opción si no está en Streamlit Cloud
-        st.subheader("Opción 1: Analizar una carpeta local")
-        local_folder_path = st.text_input("Ingresa la ruta de la carpeta local:", value="")
-        if st.button("Analizar Carpeta Local"):
-            if local_folder_path:
-                if os.path.exists(local_folder_path) and os.path.isdir(local_folder_path):
-                    st.write(f"Analizando la carpeta local: `{local_folder_path}`")
-                    contents = get_folder_contents(local_folder_path)
-                    if contents:
-                        # ... (código para mostrar y descargar, similar al anterior) ...
-                        st.subheader("Contenido Encontrado (Local):")
-                        for item in contents[:10]:
-                            st.write(f"- {item}")
-                        if len(contents) > 10:
-                            st.write(f"...y {len(contents) - 10} elementos más.")
-
-                        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                        output_filename = f"lista_archivos_local_{timestamp}.txt"
-                        output_content = "\n".join(contents)
-                        st.download_button(
-                            label="Descargar Lista de Archivos (Local)",
-                            data=output_content,
-                            file_name=output_filename,
-                            mime="text/plain"
-                        )
-                        st.success(f"La lista de archivos se ha generado correctamente en '{output_filename}' y está lista para descargar.")
-                    else:
-                        st.warning("La carpeta local seleccionada está vacía o no contiene elementos.")
-                else:
-                    st.error("La ruta local proporcionada no es una carpeta válida o no existe.")
-            else:
-                st.warning("Por favor, ingresa una ruta de carpeta local.")
-        st.markdown("---")
 
     # Opción 2: Subir un archivo ZIP
     st.subheader("Opción 2: Subir una carpeta comprimida (ZIP)")
